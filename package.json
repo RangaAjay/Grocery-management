@@ -1,0 +1,8 @@
+{
+  "name": "qp-assessment",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "author": "ajay.ranga.mr.unique@gmail.com",
+  "license": "MIT",
+  "dependencies": {}
+}
