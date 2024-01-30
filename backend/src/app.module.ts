@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from 'config/configuration';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { User } from './user/entities/user.entity';
+import { UserModule } from './user/user.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,11 +22,12 @@ import { AppService } from './app.service';
         database: configService.get('database').databaseName,
         password: configService.get('database').databasePassword,
         username: configService.get('database').databaseUsername,
-        entities: [],
+        entities: [User],
         synchronize: true,
         logging: true,
       }),
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
