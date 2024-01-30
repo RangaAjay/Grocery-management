@@ -5,6 +5,6 @@
   "author": "ajay.ranga.mr.unique@gmail.com",
   "license": "MIT",
   "scripts": {
-    "devBE": "cd backend && nest start --debug --watch"
+    "devBE": "cd backend && yarn run start:debug"
   }
 }

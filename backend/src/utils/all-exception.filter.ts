@@ -12,6 +12,9 @@ class AllExceptionsFilter implements ExceptionFilter {
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
   catch(exception: any, host: ArgumentsHost): void {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(exception);
+    }
     const { httpAdapter } = this.httpAdapterHost;
 
     const ctx = host.switchToHttp();
