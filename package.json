@@ -4,5 +4,7 @@
   "main": "index.ts",
   "author": "ajay.ranga.mr.unique@gmail.com",
   "license": "MIT",
-  "dependencies": {}
+  "scripts": {
+    "devBE": "cd backend && nest start --debug --watch"
+  }
 }
