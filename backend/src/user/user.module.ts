@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import UserRepository from './repository/user.repository';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
+import { TokenService } from './token.service';
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import { UserService } from './user.service';
     }),
   ],
   controllers: [UserController],
-  providers: [UserRepository, UserService],
+  providers: [UserRepository, UserService, TokenService],
 })
 export class UserModule {}

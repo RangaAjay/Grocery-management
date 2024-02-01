@@ -9,6 +9,7 @@ import { FindManyOptions, Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { SignInUserDto } from '../dto/signin-user.dto';
 
 class UserRepository extends Repository<User> {
   constructor(
@@ -22,10 +23,10 @@ class UserRepository extends Repository<User> {
     );
   }
 
-  async signUp(createUserDto: CreateUserDto): Promise<void> {
+  async signUp(createUserDto: CreateUserDto): Promise<User> {
     const user = this.create(createUserDto);
     try {
-      await user.save();
+      return await user.save();
     } catch (error) {
       if (error?.code === '23505') {
         throw new ConflictException('Email already exists');
@@ -35,7 +36,7 @@ class UserRepository extends Repository<User> {
     }
   }
 
-  async signIn(createUserDto: CreateUserDto) {
+  async signIn(createUserDto: SignInUserDto) {
     const { email, password } = createUserDto;
     const user = await this.findOneBy({ email });
     if (!user) {
@@ -52,13 +53,13 @@ class UserRepository extends Repository<User> {
     return this.find(options);
   }
 
-  getUserByEmail(email: string) {
-    return this.findOneByOrFail({ email });
+  getUserById(id: number) {
+    return this.findOneByOrFail({ id });
   }
 
-  async updateUser(email: string, updateUserDto: UpdateUserDto) {
+  async updateUser(id: number, updateUserDto: UpdateUserDto) {
     const { name, email: newEmail, password, role } = updateUserDto;
-    const user = await this.getUserByEmail(email);
+    const user = await this.getUserById(id);
     if (name) {
       user.name = name;
     }
@@ -74,12 +75,12 @@ class UserRepository extends Repository<User> {
     return await user.save();
   }
 
-  async deleteUser(email: string) {
-    const user = await this.findOneBy({ email });
-    if (user?.id) {
-      return await this.delete(user?.id);
+  async deleteUser(id: number) {
+    const delRes = await this.delete(id);
+    if (delRes.affected === 0) {
+      throw new NotFoundException('User Not deleted');
     }
-    throw new NotFoundException("User Don't exists");
+    return { message: 'Success' };
   }
 }
 export default UserRepository;

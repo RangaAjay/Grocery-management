@@ -4,11 +4,13 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { SignInUserDto } from './dto/signin-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
@@ -22,8 +24,8 @@ export class UserController {
   }
 
   @Post('/signin')
-  signIn(@Body(ValidationPipe) createUserDto: CreateUserDto) {
-    return this.userService.signIn(createUserDto);
+  signIn(@Body(ValidationPipe) signInUserDto: SignInUserDto) {
+    return this.userService.signIn(signInUserDto);
   }
 
   @Get()
@@ -31,29 +33,29 @@ export class UserController {
     return this.userService.findAllUser();
   }
 
-  @Get('/:email')
-  findOne(@Param('email') email: string) {
-    return this.userService.viewUser(email);
+  @Get('/:id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.viewUser(id);
   }
 
-  @Patch(':email')
+  @Patch(':id')
   update(
-    @Param('email') email: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body(ValidationPipe) updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.updateUser(email, updateUserDto);
+    return this.userService.updateUser(id, updateUserDto);
   }
 
-  @Patch(':email/role')
+  @Patch(':id/role')
   updateRole(
-    @Param('email') email: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body(ValidationPipe) updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.updateUser(email, { role: updateUserDto?.role });
+    return this.userService.updateUser(id, { role: updateUserDto?.role });
   }
 
-  @Delete(':email')
-  remove(@Param('email') email: string) {
-    return this.userService.removeUser(email);
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.removeUser(id);
   }
 }
