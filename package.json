@@ -7,11 +7,6 @@
   "scripts": {
     "devBE": "cd backend && yarn run start:debug"
   },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.2"
-  },
-  "dependencies": {
-    "@nestjs/mapped-types": "*",
-    "bcrypt": "^5.1.1"
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }

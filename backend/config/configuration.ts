@@ -1,6 +1,9 @@
-export default () => ({
+const configuration = () => ({
   NODE_ENV: process.env.NODE_ENV,
   port: parseInt(process.env.PORT ?? '3000', 10),
+  jwt: {
+    jwtSecret: process.env.JWT_SECRET ?? 'someSecret',
+  },
   database: {
     databaseType: process.env.DATABASE_TYPE ?? 'postgres',
     databaseHost: process.env.DATABASE_HOST ?? 'localhost',
@@ -10,3 +13,4 @@ export default () => ({
     databaseName: process.env.DATABASE_NAME ?? 'postgres',
   },
 });
+export default configuration;
