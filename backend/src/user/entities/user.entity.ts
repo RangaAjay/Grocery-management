@@ -42,6 +42,9 @@ export class User extends BaseEntity {
   @OneToMany(() => Product, (product) => product.user, { eager: true })
   products: Product[];
 
+  // @OneToMany(() => Order, (order) => order.user, { eager: true })
+  // orders: Order[];
+
   constructor(email: string, pwd: string) {
     super();
     this.email = email;

@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from 'config/configuration';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { OrderItem } from './order/entities/order-items.entity';
 import { Order } from './order/entities/order.entity';
 import { OrderModule } from './order/order.module';
 import { Product } from './product/entities/product.entity';
@@ -27,7 +28,7 @@ import { UserModule } from './user/user.module';
         database: configService.get('database').databaseName,
         password: configService.get('database').databasePassword,
         username: configService.get('database').databaseUsername,
-        entities: [User, Product, Order],
+        entities: [User, Product, Order, OrderItem],
         synchronize: true,
         logging: true,
       }),
