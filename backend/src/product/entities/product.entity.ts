@@ -30,8 +30,7 @@ export class Product extends BaseEntity {
   @Column({ type: 'integer', default: 0 })
   unitsAvailable: number;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @ManyToOne((type) => User, (user) => user.products, { eager: false })
+  @ManyToOne(() => User, (user) => user.products, { eager: false })
   user: User;
 
   @Column()
