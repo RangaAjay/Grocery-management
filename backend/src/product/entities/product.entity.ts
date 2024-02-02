@@ -1,1 +1,39 @@
-export class Product {}
+import { User } from 'src/user/entities/user.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+
+@Entity()
+export class Product extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'varchar', length: 30 })
+  title: string;
+
+  @Column({ type: 'varchar', length: 200 })
+  description: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  image: string;
+
+  @Column({ type: 'decimal' })
+  price: number;
+
+  @Column({ type: 'enum', enum: ['usd', 'inr'], default: 'inr' })
+  currency: string;
+
+  @Column({ type: 'integer', default: 0 })
+  unitsAvailable: number;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @ManyToOne((type) => User, (user) => user.products, { eager: false })
+  user: User;
+
+  @Column()
+  userId: number;
+}
