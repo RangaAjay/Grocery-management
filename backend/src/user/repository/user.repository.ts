@@ -78,7 +78,7 @@ class UserRepository extends Repository<User> {
   async deleteUser(id: number) {
     const delRes = await this.delete(id);
     if (delRes.affected === 0) {
-      throw new NotFoundException('User Not deleted');
+      throw new NotFoundException();
     }
     return { message: 'Success' };
   }
