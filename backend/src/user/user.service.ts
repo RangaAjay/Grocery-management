@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { SignInUserDto } from './dto/signin-user.dto';
@@ -6,6 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import UserRepository from './repository/user.repository';
 import { TokenService } from './token.service';
+import { RoleEnum } from 'types/common';
 
 @Injectable()
 export class UserService {
@@ -40,12 +41,20 @@ export class UserService {
     return await this.userRepository.getAllUsers();
   }
 
-  async viewUser(id: number): Promise<User | null> {
-    return await this.userRepository.getUserById(id);
+  async viewUser(id: number, user: User): Promise<User | null> {
+    if (user.id !== id && user.role !== RoleEnum.ADMIN) {
+      throw new UnauthorizedException();
+    } else {
+      return await this.userRepository.getUserById(id);
+    }
   }
 
-  async updateUser(id: number, updateUserDto: UpdateUserDto) {
-    return await this.userRepository.updateUser(id, updateUserDto);
+  async updateUser(id: number, updateUserDto: UpdateUserDto, user: User) {
+    if (user.id !== id && user.role !== RoleEnum.ADMIN) {
+      throw new UnauthorizedException();
+    } else {
+      return await this.userRepository.updateUser(id, updateUserDto);
+    }
   }
 
   async removeUser(id: number) {

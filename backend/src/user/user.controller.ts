@@ -19,6 +19,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { RoleGuard } from './role/role.guard';
 import { Roles } from './roles/roles.decorator';
 import { UserService } from './user.service';
+import { GetUser } from './Get-user.decorator';
+import { User } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
@@ -40,42 +42,59 @@ export class UserController {
     return this.userService.refreshToken(refreshTokenDto);
   }
 
-  @Get()
   @Roles(RoleEnum.ADMIN)
-  @UseGuards(RoleGuard)
+  @UseGuards(AuthGuard(), RoleGuard)
+  @Get()
   findAll() {
     return this.userService.findAllUser();
   }
 
   @Get('/:id')
   @UseGuards(AuthGuard())
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.viewUser(id);
+  findOne(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
+    return this.userService.viewUser(id, user);
+  }
+  @Get('/:id/admin')
+  @UseGuards(AuthGuard())
+  findOneByAdmin(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
+    return this.userService.viewUser(id, user);
   }
 
   @Patch(':id')
-  @Roles(RoleEnum.ADMIN)
-  @UseGuards(RoleGuard)
+  @UseGuards(AuthGuard())
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body(ValidationPipe) updateUserDto: UpdateUserDto,
+    @GetUser() user: User,
   ) {
-    return this.userService.updateUser(id, updateUserDto);
+    return this.userService.updateUser(id, updateUserDto, user);
+  }
+
+  @Patch(':id/admin')
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(AuthGuard(), RoleGuard)
+  updateByAdmin(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(ValidationPipe) updateUserDto: UpdateUserDto,
+    @GetUser() user: User,
+  ) {
+    return this.userService.updateUser(id, updateUserDto, user);
   }
 
   @Patch(':id/role')
   @Roles(RoleEnum.ADMIN)
-  @UseGuards(RoleGuard)
+  @UseGuards(AuthGuard(), RoleGuard)
   updateRole(
     @Param('id', ParseIntPipe) id: number,
     @Body(ValidationPipe) updateUserDto: UpdateUserDto,
+    @GetUser() user: User,
   ) {
-    return this.userService.updateUser(id, { role: updateUserDto?.role });
+    return this.userService.updateUser(id, { role: updateUserDto?.role }, user);
   }
 
   @Delete(':id')
   @Roles(RoleEnum.ADMIN)
-  @UseGuards(RoleGuard)
+  @UseGuards(AuthGuard(), RoleGuard)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.userService.removeUser(id);
   }
