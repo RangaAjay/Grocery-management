@@ -19,11 +19,13 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductService } from './product.service';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @ApiTags('Product Admin')
   @Post()
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard(), RoleGuard)
@@ -35,12 +37,14 @@ export class ProductController {
     return this.productService.create(createProductDto, user);
   }
 
+  @ApiTags('Product User')
   @Get()
   @UseGuards(AuthGuard())
   getAllUserProduct(@GetUser() user: User) {
     return this.productService.findAll(user);
   }
 
+  @ApiTags('Product Admin')
   @Get('/admin')
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard(), RoleGuard)
@@ -48,12 +52,14 @@ export class ProductController {
     return this.productService.findAll(user, true);
   }
 
+  @ApiTags('Product User')
   @Get(':id')
   @UseGuards(AuthGuard())
   findOne(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
     return this.productService.findOne(id, user);
   }
 
+  @ApiTags('Product Admin')
   @Get(':id/admin')
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard(), RoleGuard)
@@ -61,6 +67,7 @@ export class ProductController {
     return this.productService.findOne(id, user, true);
   }
 
+  @ApiTags('Product Admin')
   @Patch(':id')
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard(), RoleGuard)
@@ -71,6 +78,7 @@ export class ProductController {
     return this.productService.update(+id, updateProductDto);
   }
 
+  @ApiTags('Product Admin')
   @Delete(':id')
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard(), RoleGuard)

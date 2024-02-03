@@ -50,7 +50,10 @@ export class UserService {
   }
 
   async updateUser(id: number, updateUserDto: UpdateUserDto, user: User) {
-    if (user.id !== id && user.role !== RoleEnum.ADMIN) {
+    if (
+      (user.id !== id && user.role !== RoleEnum.ADMIN) ||
+      ('role' in updateUserDto && user.role !== RoleEnum.ADMIN)
+    ) {
       throw new UnauthorizedException();
     } else {
       return await this.userRepository.updateUser(id, updateUserDto);

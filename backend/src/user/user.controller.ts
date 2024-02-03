@@ -21,27 +21,32 @@ import { User } from './entities/user.entity';
 import { RoleGuard } from './role/role.guard';
 import { Roles } from './roles/roles.decorator';
 import { UserService } from './user.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @ApiTags('Auth User')
+  @Post('/signup')
   signUp(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     return this.userService.signUp(createUserDto);
   }
 
+  @ApiTags('Auth User')
   @Post('/signin')
   signIn(@Body(ValidationPipe) signInUserDto: SignInUserDto) {
     return this.userService.signIn(signInUserDto);
   }
 
-  @Post('/refresh')
+  @ApiTags('Auth User')
+  @Post('/refreshToken')
   @UseGuards(AuthGuard())
   refreshTokens(@Body(ValidationPipe) refreshTokenDto: RefreshTokenDto) {
     return this.userService.refreshToken(refreshTokenDto);
   }
 
+  @ApiTags('Auth Admin')
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard(), RoleGuard)
   @Get()
@@ -49,17 +54,21 @@ export class UserController {
     return this.userService.findAllUser();
   }
 
+  @ApiTags('Auth User')
   @Get('/:id')
   @UseGuards(AuthGuard())
   findOne(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
     return this.userService.viewUser(id, user);
   }
+
+  @ApiTags('Auth Admin')
   @Get('/:id/admin')
   @UseGuards(AuthGuard())
   findOneByAdmin(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
     return this.userService.viewUser(id, user);
   }
 
+  @ApiTags('Auth User')
   @Patch(':id')
   @UseGuards(AuthGuard())
   update(
@@ -70,6 +79,7 @@ export class UserController {
     return this.userService.updateUser(id, updateUserDto, user);
   }
 
+  @ApiTags('Auth Admin')
   @Patch(':id/admin')
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard(), RoleGuard)
@@ -81,6 +91,7 @@ export class UserController {
     return this.userService.updateUser(id, updateUserDto, user);
   }
 
+  @ApiTags('Auth Admin')
   @Patch(':id/role')
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard(), RoleGuard)
@@ -92,6 +103,7 @@ export class UserController {
     return this.userService.updateUser(id, { role: updateUserDto?.role }, user);
   }
 
+  @ApiTags('Auth Admin')
   @Delete(':id')
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard(), RoleGuard)
