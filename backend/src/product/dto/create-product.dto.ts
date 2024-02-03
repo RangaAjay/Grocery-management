@@ -1,6 +1,5 @@
 import { Type } from 'class-transformer';
 import {
-  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -33,10 +32,6 @@ export class CreateProductDto {
   @IsNumber()
   @IsPositive()
   price: number;
-
-  @IsEnum(['usd', 'inr'])
-  @IsOptional()
-  currency: string;
 
   @Type(() => Number)
   @IsNumber()

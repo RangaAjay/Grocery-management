@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { serializeProductPayload } from 'src/utils/helpers';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import OrderRepository from './repository/order.repository';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class OrderService {
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+  constructor(private orderRepository: OrderRepository) {}
+
+  create(createOrderDto: CreateOrderDto, user: User) {
+    const parsedArrayData = serializeProductPayload(createOrderDto);
+    return this.orderRepository.createOrder(parsedArrayData, user);
   }
 
-  findAll() {
-    return `This action returns all order`;
+  findAll(user: User, fromAdmin?: boolean) {
+    return this.orderRepository.getOrders(fromAdmin ? {} : { userId: user.id });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
-  }
-
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  findOne(id: number, user: User, fromAdmin?: boolean) {
+    return this.orderRepository.getOrderById(
+      fromAdmin ? { id } : { id, userId: user.id },
+    );
   }
 }

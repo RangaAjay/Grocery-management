@@ -24,9 +24,6 @@ export class Product extends BaseEntity {
   @Column({ type: 'decimal' })
   price: number;
 
-  @Column({ type: 'enum', enum: ['usd', 'inr'], default: 'inr' })
-  currency: string;
-
   @Column({ type: 'integer', default: 0 })
   unitsAvailable: number;
 

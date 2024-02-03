@@ -1,3 +1,4 @@
+import { User } from 'src/user/entities/user.entity';
 import {
   BaseEntity,
   Column,
@@ -7,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { OrderItem } from './order.items.entity';
-import { User } from 'src/user/entities/user.entity';
 
 @Entity()
 export class Order extends BaseEntity {

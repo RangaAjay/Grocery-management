@@ -25,12 +25,11 @@ class ProductRepository extends Repository<Product> {
   }
 
   async createNewProduct(createProductDto: CreateProductDto, user: User) {
-    const { title, currency, description, image, price, unitsAvailable } =
+    const { title, description, image, price, unitsAvailable } =
       createProductDto;
     const product = new Product();
     product.title = title;
     product.description = description;
-    product.currency = currency;
     product.image = image;
     product.price = price;
     product.unitsAvailable = unitsAvailable;
