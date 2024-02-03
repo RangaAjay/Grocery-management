@@ -38,7 +38,10 @@ class UserRepository extends Repository<User> {
 
   async signIn(createUserDto: SignInUserDto) {
     const { email, password } = createUserDto;
-    const user = await this.findOneBy({ email });
+    const user = await this.findOne({
+      select: { password: true, salt: true, id: true },
+      where: { email },
+    });
     if (!user) {
       throw new NotFoundException(`No User exists with email ${email}`);
     }

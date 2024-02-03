@@ -12,15 +12,15 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RoleEnum } from 'types/common';
+import { GetUser } from './Get-user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { SignInUserDto } from './dto/signin-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 import { RoleGuard } from './role/role.guard';
 import { Roles } from './roles/roles.decorator';
 import { UserService } from './user.service';
-import { GetUser } from './Get-user.decorator';
-import { User } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
