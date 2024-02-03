@@ -39,10 +39,10 @@ export class User extends BaseEntity {
   })
   role: string;
 
-  @OneToMany(() => Product, (product) => product.user, { eager: true })
+  @OneToMany(() => Product, (product) => product.user, { eager: false })
   products: Product[];
 
-  @OneToMany(() => Order, (order) => order.user, { eager: true })
+  @OneToMany(() => Order, (order) => order.user, { eager: false })
   orders: Order[];
 
   constructor(email: string, pwd: string) {

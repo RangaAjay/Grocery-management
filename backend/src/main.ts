@@ -12,9 +12,9 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth({
       type: 'http',
-      name: 'Bearer Token',
-      description: 'Access Token for app',
-      'x-tokenName': 'Bearer',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      in: 'header',
     })
     .build();
   const document = SwaggerModule.createDocument(app, config);

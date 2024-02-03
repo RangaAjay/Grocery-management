@@ -48,6 +48,13 @@ export class UserService {
       return await this.userRepository.getUserById(id);
     }
   }
+  async getMyProfile(user: User): Promise<User | null> {
+    if (!user.id) {
+      throw new UnauthorizedException();
+    } else {
+      return await this.userRepository.getUserById(user.id);
+    }
+  }
 
   async updateUser(id: number, updateUserDto: UpdateUserDto, user: User) {
     if (
