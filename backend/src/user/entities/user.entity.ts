@@ -1,5 +1,4 @@
 import { genSalt, hash } from 'bcrypt';
-import { Order } from 'src/order/entities/order.entity';
 import { Product } from 'src/product/entities/product.entity';
 import {
   BaseEntity,
@@ -41,9 +40,6 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Product, (product) => product.user, { eager: true })
   products: Product[];
-
-  // @OneToMany(() => Order, (order) => order.user, { eager: true })
-  // orders: Order[];
 
   constructor(email: string, pwd: string) {
     super();
