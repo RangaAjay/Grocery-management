@@ -39,7 +39,6 @@ class OrderRepository extends Repository<Order> {
       allProducts,
       parsedCreateOrder,
     );
-
     const order = new Order();
     order.totalPrice = totalPrice;
     order.createdAt = createdAt;
@@ -47,8 +46,12 @@ class OrderRepository extends Repository<Order> {
     const orderRes = await order.save();
     const orderId = orderRes.id;
     orderItems = orderItems.map((itm) => ({ ...itm, orderId }));
-    const res1 = await this.orderItemRepository.insert(orderItems);
-    return res1;
+    try {
+      const res1 = await this.orderItemRepository.insert(orderItems);
+      return res1;
+    } catch (error) {
+      return error;
+    }
   }
 
   getOrders(

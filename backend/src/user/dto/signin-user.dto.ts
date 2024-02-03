@@ -3,8 +3,8 @@ import { CreateUserDto } from './create-user.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class SignInUserDto extends PartialType(CreateUserDto) {
-  @ApiProperty({ example: 'temp@xyz.com', required: true })
+  @ApiProperty({ example: 'ajay@gmail.com', required: true })
   email: string;
-  @ApiProperty({ example: 'StrongPassword@123', required: true })
+  @ApiProperty({ example: 'Ajay@123', required: true })
   password: string;
 }

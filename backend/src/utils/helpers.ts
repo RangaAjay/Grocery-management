@@ -1,9 +1,9 @@
 import { BadRequestException } from '@nestjs/common';
-import { CreateOrderDto } from 'src/order/dto/create-order.dto';
+import { SingleOrderItem } from 'src/order/dto/create-order.dto';
 import { IOrderPayload } from 'types/common';
 
 export const serializeProductPayload = (
-  createOrderDto: CreateOrderDto,
+  createOrderDto: SingleOrderItem[],
 ): IOrderPayload[] => {
   const parsedOrderMap = new Map<number, number>();
   if (Array.isArray(createOrderDto)) {

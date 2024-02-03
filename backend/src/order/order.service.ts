@@ -9,7 +9,7 @@ export class OrderService {
   constructor(private orderRepository: OrderRepository) {}
 
   create(createOrderDto: CreateOrderDto, user: User) {
-    const parsedArrayData = serializeProductPayload(createOrderDto);
+    const parsedArrayData = serializeProductPayload(createOrderDto.items);
     return this.orderRepository.createOrder(parsedArrayData, user);
   }
 

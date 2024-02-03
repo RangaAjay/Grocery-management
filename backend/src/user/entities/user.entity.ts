@@ -23,7 +23,16 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 30 })
   name: string;
 
-  @Column({ type: 'varchar', length: 40, unique: true })
+  @Column({
+    type: 'varchar',
+    length: 40,
+    unique: true,
+    // transformer: {
+    //   to(value: string) {
+    //     value.toLowerCase();
+    //   },
+    // },
+  })
   email: string;
 
   @Column({ type: 'varchar', select: false })

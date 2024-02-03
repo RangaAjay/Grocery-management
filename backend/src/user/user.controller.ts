@@ -116,19 +116,6 @@ export class UserController {
   }
 
   @ApiTags('Auth Admin')
-  @Patch(':id/role')
-  @Roles(RoleEnum.ADMIN)
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard(), RoleGuard)
-  updateRole(
-    @Param('id', ParseIntPipe) id: number,
-    @Body(ValidationPipe) updateUserDto: UpdateUserDto,
-    @GetUser() user: User,
-  ) {
-    return this.userService.updateUser(id, { role: updateUserDto?.role }, user);
-  }
-
-  @ApiTags('Auth Admin')
   @Delete(':id')
   @Roles(RoleEnum.ADMIN)
   @ApiBearerAuth()

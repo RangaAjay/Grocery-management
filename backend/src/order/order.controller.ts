@@ -8,14 +8,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { GetUser } from 'src/user/Get-user.decorator';
+import { User } from 'src/user/entities/user.entity';
 import { RoleGuard } from 'src/user/role/role.guard';
 import { Roles } from 'src/user/roles/roles.decorator';
 import { RoleEnum } from 'types/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderService } from './order.service';
-import { GetUser } from 'src/user/Get-user.decorator';
-import { User } from 'src/user/entities/user.entity';
-import { ApiTags } from '@nestjs/swagger';
 
 @Controller('order')
 export class OrderController {
@@ -25,13 +25,9 @@ export class OrderController {
   @Post()
   @Roles(RoleEnum.USER)
   @UseGuards(AuthGuard(), RoleGuard)
+  @ApiBearerAuth()
   create(
-    @Body(
-      new ValidationPipe({
-        transform: true,
-        transformOptions: { enableImplicitConversion: true },
-      }),
-    )
+    @Body(ValidationPipe)
     createOrderDto: CreateOrderDto,
     @GetUser() user: User,
   ) {
@@ -42,6 +38,7 @@ export class OrderController {
   @Get()
   @Roles(RoleEnum.USER)
   @UseGuards(AuthGuard(), RoleGuard)
+  @ApiBearerAuth()
   findAll(@GetUser() user: User) {
     return this.orderService.findAll(user);
   }
@@ -50,6 +47,7 @@ export class OrderController {
   @Get('/admin')
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard(), RoleGuard)
+  @ApiBearerAuth()
   findAllByAdmin(@GetUser() user: User) {
     return this.orderService.findAll(user, true);
   }
@@ -58,6 +56,7 @@ export class OrderController {
   @Get(':id')
   @Roles(RoleEnum.USER)
   @UseGuards(AuthGuard(), RoleGuard)
+  @ApiBearerAuth()
   findOne(@Param('id') id: string, @GetUser() user: User) {
     return this.orderService.findOne(+id, user);
   }
