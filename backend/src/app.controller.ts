@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @ApiTags('CheckApp')
 @Controller()
@@ -13,7 +14,7 @@ export class AppController {
   })
   @ApiResponse({ status: '5XX', description: 'App Not working' })
   @Get()
-  getRoot(): string {
-    return this.appService.getRoot();
+  getRoot(@Res() res: Response): void {
+    return this.appService.getRoot(res);
   }
 }

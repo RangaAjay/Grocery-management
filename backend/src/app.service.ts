@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { Response } from 'express';
 
 @Injectable()
 export class AppService {
-  getRoot(): string {
-    return `Server is Running on Port ${process.env.PORT ?? 3000}`;
+  getRoot(res: Response): void {
+    return res.redirect('/swagger');
   }
 }
