@@ -23,7 +23,11 @@ class OrderRepository extends Repository<Order> {
     );
   }
 
-  async createOrder(parsedCreateOrder: IOrderPayload[], user: User) {
+  async createOrder(
+    parsedCreateOrder: IOrderPayload[],
+    parsedOrderMap: Map<number, number>,
+    user: User,
+  ) {
     const createdAt = new Date();
     const productIds = [];
     for (const productItm of parsedCreateOrder) {
@@ -44,6 +48,7 @@ class OrderRepository extends Repository<Order> {
     order.createdAt = createdAt;
     order.user = user;
     const orderRes = await order.save();
+    await this.changeQuantityInProductTable(parsedOrderMap, allProducts);
     const orderId = orderRes.id;
     orderItems = orderItems.map((itm) => ({ ...itm, orderId }));
     try {
@@ -71,7 +76,11 @@ class OrderRepository extends Repository<Order> {
     orderDetails: IOrderPayload[],
   ) {
     let totalPrice = 0;
-    const orderItems: any[] = [];
+    const orderItems: {
+      quantity: number;
+      totalPrice: number;
+      productId: number;
+    }[] = [];
     allProducts.forEach((prod) => {
       const productInPayload = orderDetails.find(
         (itm) => itm.productId === prod.id,
@@ -92,6 +101,17 @@ class OrderRepository extends Repository<Order> {
       }
     });
     return { totalPrice, orderItems };
+  }
+
+  async changeQuantityInProductTable(
+    parsedOrderMap: Map<number, number>,
+    productsInTable: Product[],
+  ) {
+    for (const product of productsInTable) {
+      if (parsedOrderMap.has(product.id) && parsedOrderMap.get(product.id)) {
+        await product.reduceQuantity(parsedOrderMap.get(product.id)!);
+      }
+    }
   }
 }
 export default OrderRepository;

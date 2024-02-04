@@ -8,7 +8,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/user/Get-user.decorator';
 import { User } from 'src/user/entities/user.entity';
 import { RoleGuard } from 'src/user/role/role.guard';
@@ -22,6 +22,7 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @ApiTags('Order User')
+  @ApiBadRequestResponse({ description: 'Admin Cannot make an order' })
   @Post()
   @Roles(RoleEnum.USER)
   @UseGuards(AuthGuard(), RoleGuard)

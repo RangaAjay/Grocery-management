@@ -18,7 +18,7 @@ export class Product extends BaseEntity {
   @Column({ type: 'varchar', length: 200 })
   description: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
+  @Column({ type: 'varchar', length: 200, nullable: true })
   image: string;
 
   @Column({ type: 'decimal' })
@@ -32,4 +32,9 @@ export class Product extends BaseEntity {
 
   @Column()
   userId: number;
+
+  async reduceQuantity(quantity: number) {
+    this.unitsAvailable = this.unitsAvailable - quantity;
+    await this.save();
+  }
 }

@@ -4,7 +4,10 @@ import { IOrderPayload } from 'types/common';
 
 export const serializeProductPayload = (
   createOrderDto: SingleOrderItem[],
-): IOrderPayload[] => {
+): {
+  parsedArrayData: IOrderPayload[];
+  parsedOrderMap: Map<number, number>;
+} => {
   const parsedOrderMap = new Map<number, number>();
   if (Array.isArray(createOrderDto)) {
     createOrderDto.forEach(
@@ -23,7 +26,7 @@ export const serializeProductPayload = (
     parsedOrderMap.forEach((productQuantity, productId) => {
       parsedArrayData.push({ productId: +productId, productQuantity });
     });
-    return parsedArrayData;
+    return { parsedArrayData, parsedOrderMap };
   } else {
     throw new BadRequestException();
   }
