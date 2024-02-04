@@ -1,0 +1,53 @@
+version: '1.0'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: grocery
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    container_name: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD', 'pg_isready']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest-app
+    environment:
+      NODE_ENV: production
+      HOSTNAME: localhost
+      PORT: 3000
+      JWT_SECRET: eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwNjc3MzQzNywiaWF0IjoxNzA2NzczNDM3fQ
+      DATABASE_TYPE: postgres
+      DATABASE_HOST: host.docker.internal
+      DATABASE_PORT: 5432
+      DATABASE_PASSWORD: password123
+      DATABASE_USERNAME: postgres
+      DATABASE_NAME: grocery
+    ports:
+      - '3000:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=pgadmin4
+    ports:
+      - '5050:80'
+    depends_on:
+      - db
