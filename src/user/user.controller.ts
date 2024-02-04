@@ -91,15 +91,30 @@ export class UserController {
   }
 
   @ApiTags('Auth User')
-  @Patch(':id')
+  @Patch('/me')
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   update(
-    @Param('id', ParseIntPipe) id: number,
     @Body(ValidationPipe) updateUserDto: UpdateUserDto,
     @GetUser() user: User,
   ) {
-    return this.userService.updateUser(id, updateUserDto, user);
+    return this.userService.updateUser(user.id, updateUserDto, user);
+  }
+
+  @ApiTags('Auth User')
+  @Patch('/make-admin-temp')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  makeAdmin(
+    @Body(ValidationPipe) updateUserDto: UpdateUserDto,
+    @GetUser() user: User,
+  ) {
+    return this.userService.updateUser(
+      user.id,
+      { role: RoleEnum.ADMIN },
+      user,
+      true,
+    );
   }
 
   @ApiTags('Auth Admin')
