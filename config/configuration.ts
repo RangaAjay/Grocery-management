@@ -5,7 +5,7 @@ const configuration = () => ({
     jwtSecret: process.env.JWT_SECRET ?? 'someSecret',
   },
   database: {
-    databaseType: process.env.DATABASE_TYPE ?? 'postgres',
+    databaseType: (process.env.DATABASE_TYPE ?? 'postgres') as 'postgres',
     dbHostname: process.env.DATABASE_HOST ?? 'localhost',
     databasePort: parseInt(process.env.DATABASE_PORT ?? '5432', 10),
     databasePassword: process.env.DATABASE_PASSWORD ?? '',
