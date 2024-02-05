@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/product/entities/product.entity';
 import { User } from 'src/user/entities/user.entity';
 import { FindOptionsWhere, In, Repository } from 'typeorm';
-import { IOrderPayload } from 'types/common';
+import { IOrderPayload } from 'src/utils/types/common';
 import { Order } from '../entities/order.entity';
 import { OrderItem } from '../entities/order.items.entity';
 

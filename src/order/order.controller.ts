@@ -13,7 +13,7 @@ import { GetUser } from 'src/user/Get-user.decorator';
 import { User } from 'src/user/entities/user.entity';
 import { RoleGuard } from 'src/user/role/role.guard';
 import { Roles } from 'src/user/roles/roles.decorator';
-import { RoleEnum } from 'types/common';
+import { RoleEnum } from 'src/utils/types/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderService } from './order.service';
 

@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { SingleOrderItem } from 'src/order/dto/create-order.dto';
-import { IOrderPayload } from 'types/common';
+import { IOrderPayload } from 'src/utils/types/common';
 
 export const serializeProductPayload = (
   createOrderDto: SingleOrderItem[],

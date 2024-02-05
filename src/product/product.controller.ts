@@ -14,7 +14,7 @@ import { GetUser } from 'src/user/Get-user.decorator';
 import { User } from 'src/user/entities/user.entity';
 import { RoleGuard } from 'src/user/role/role.guard';
 import { Roles } from 'src/user/roles/roles.decorator';
-import { RoleEnum } from 'types/common';
+import { RoleEnum } from 'src/utils/types/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductService } from './product.service';

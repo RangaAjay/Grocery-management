@@ -10,7 +10,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { RoleEnum } from 'types/common';
+import { RoleEnum } from 'src/utils/types/common';
 
 @Entity()
 export class User extends BaseEntity {

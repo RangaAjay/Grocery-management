@@ -6,7 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import UserRepository from './repository/user.repository';
 import { TokenService } from './token.service';
-import { RoleEnum } from 'types/common';
+import { RoleEnum } from 'src/utils/types/common';
 
 @Injectable()
 export class UserService {

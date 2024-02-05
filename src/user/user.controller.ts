@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { RoleEnum } from 'types/common';
+import { RoleEnum } from 'src/utils/types/common';
 import { GetUser } from './Get-user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
